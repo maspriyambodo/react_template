@@ -6,6 +6,7 @@ import { Search, Download, Filter } from 'lucide-react'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
 import { apiService } from '../utils/api'
+import { showInfo, showDeleteConfirm, showSuccess } from '../utils/sweetalert'
 
 const DataGrid = () => {
   const [rowData, setRowData] = useState([])
@@ -17,9 +18,6 @@ const DataGrid = () => {
     { 
       field: 'id', 
       headerName: 'ID',
-      width: 80,
-      checkboxSelection: true,
-      headerCheckboxSelection: true,
     },
     { 
       field: 'name', 
@@ -156,13 +154,15 @@ const DataGrid = () => {
 
   const handleEdit = (data) => {
     console.log('Edit:', data)
-    alert(`Editing user: ${data.name}`)
+    showInfo(`You are editing: ${data.name}`, 'Edit User')
   }
 
-  const handleDelete = (data) => {
+  const handleDelete = async (data) => {
     console.log('Delete:', data)
-    if (confirm(`Are you sure you want to delete ${data.name}?`)) {
+    const result = await showDeleteConfirm(data.name)
+    if (result.isConfirmed) {
       setRowData(prev => prev.filter(row => row.id !== data.id))
+      showSuccess(`${data.name} has been deleted successfully!`, 'Deleted!')
     }
   }
 
@@ -202,7 +202,11 @@ const DataGrid = () => {
               pagination={true}
               paginationPageSize={10}
               paginationPageSizeSelector={[10, 20, 50, 100]}
-              rowSelection="multiple"
+              rowSelection={{
+                mode: 'multiRow',
+                checkboxes: true,
+                headerCheckbox: true,
+              }}
               suppressRowClickSelection={true}
               quickFilterText={searchText}
               animateRows={true}

@@ -4,6 +4,7 @@ import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
 import Input from '../components/ui/Input'
 import { apiService, sanitizeInput } from '../utils/api'
+import { showDeleteConfirm, showSuccess, showError } from '../utils/sweetalert'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -57,12 +58,16 @@ const Users = () => {
     setShowModal(true)
   }
 
-  const handleDeleteUser = async (id) => {
-    if (!confirm('Are you sure you want to delete this user?')) return
+  const handleDeleteUser = async (user) => {
+    const result = await showDeleteConfirm(user.name)
+    if (!result.isConfirmed) return
 
-    const { error } = await apiService.delete(`/users/${id}`)
+    const { error } = await apiService.delete(`/users/${user.id}`)
     if (!error) {
-      setUsers(users.filter(user => user.id !== id))
+      setUsers(users.filter(u => u.id !== user.id))
+      showSuccess(`${user.name} has been deleted successfully!`, 'Deleted!')
+    } else {
+      showError('Failed to delete user. Please try again.', 'Error!')
     }
   }
 
@@ -79,12 +84,20 @@ const Users = () => {
       const { data: updatedUser, error } = await apiService.put(`/users/${editingUser.id}`, sanitizedData)
       if (!error) {
         setUsers(users.map(u => u.id === editingUser.id ? { ...u, ...sanitizedData } : u))
+        showSuccess('User updated successfully!', 'Updated!')
+      } else {
+        showError('Failed to update user. Please try again.', 'Error!')
+        return
       }
     } else {
       // Create user
       const { data: newUser, error } = await apiService.post('/users', sanitizedData)
       if (!error) {
         setUsers([...users, { ...sanitizedData, id: users.length + 1 }])
+        showSuccess('User created successfully!', 'Created!')
+      } else {
+        showError('Failed to create user. Please try again.', 'Error!')
+        return
       }
     }
 
@@ -147,7 +160,7 @@ const Users = () => {
                         <Edit size={18} />
                       </button>
                       <button
-                        onClick={() => handleDeleteUser(user.id)}
+                        onClick={() => handleDeleteUser(user)}
                         className="text-red-600 hover:text-red-900 dark:hover:text-red-400"
                       >
                         <Trash2 size={18} />
