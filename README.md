@@ -35,7 +35,7 @@ A modern, secure, and feature-rich admin dashboard built with React Router v7, T
 
 ## Tech Stack
 
-- **Frontend Framework**: React 18.3
+- **Frontend Framework**: React 19
 - **Routing**: React Router DOM 7.0
 - **Styling**: Tailwind CSS 3.4
 - **State Management**: Zustand 5.0
@@ -90,7 +90,7 @@ adminfe/
 
 ### Prerequisites
 
-- Node.js 18+ and npm/yarn
+- Node.js 24 and npm/yarn
 
 ### Installation
 
