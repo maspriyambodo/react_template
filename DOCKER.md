@@ -10,16 +10,14 @@ This guide explains how to run the Admin Dashboard using Docker with Nginx rever
 ## Architecture
 
 ### Development Setup
-- **Backend Container**: Go API server with Gin framework (port 8080)
 - **App Container**: Vite dev server with HMR (Hot Module Replacement)
-- **Nginx Container**: Reverse proxy with WebSocket support for HMR and API proxying
+- **Nginx Container**: Reverse proxy with WebSocket support for HMR
 - **Network**: Custom bridge network for service communication
 
 ### Production Setup
-- **Multi-stage Build**: Optimized build process for both frontend and backend
-- **Backend Container**: Go API server in production mode
+- **Multi-stage Build**: Optimized build process for frontend
 - **App Container**: Nginx serving static built files
-- **Production Nginx**: Reverse proxy with caching, security headers, and API routing
+- **Production Nginx**: Reverse proxy with caching, security headers
 - **Network**: Custom bridge network
 
 ## Development Environment
@@ -41,8 +39,6 @@ docker-compose -f docker-compose.dev.yaml logs -f
 
 - **Frontend via Nginx**: http://localhost (port 80)
 - **Frontend Direct Access**: http://localhost:5173
-- **Backend API**: http://localhost:8080
-- **API via Nginx**: http://localhost/api/v1/health
 
 ### Development Features
 
@@ -51,7 +47,7 @@ docker-compose -f docker-compose.dev.yaml logs -f
 - ✅ **Volume mounting** - Live code updates without rebuilding
 - ✅ **WebSocket support** - Real-time HMR communication
 - ✅ **No rebuild needed** - Just save your code and see changes instantly
-- ✅ **Backend API integration** - Go backend with automatic routing
+- ✅ **External API integration** - Connects to external APIs (JSONPlaceholder)
 - ✅ **Rate limiting** - Protection against abuse
 - ✅ **Security headers** - Production-grade security in development
 
@@ -113,7 +109,6 @@ docker-compose -f docker-compose.prod.yaml up -d
 - ✅ Security headers
 - ✅ Rate limiting
 - ✅ Health checks
-- ✅ API proxy caching
 
 ### Stopping Production Server
 
