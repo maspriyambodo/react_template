@@ -9,7 +9,9 @@ import useAuthStore from './store/useAuthStore'
 // Lazy load pages for code splitting
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Users = lazy(() => import('./pages/Users'))
+// Analytics loads heavy chart libraries, so lazy load it more aggressively
 const Analytics = lazy(() => import('./pages/Analytics'))
+// DataGrid loads heavy grid libraries, so lazy load it more aggressively
 const DataGrid = lazy(() => import('./pages/DataGrid'))
 const Settings = lazy(() => import('./pages/Settings'))
 

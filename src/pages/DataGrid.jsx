@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { AgGridReact } from 'ag-grid-react'
+// Only import the styles we actually use
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-alpine.css'
 import { Search, Download, Filter } from 'lucide-react'

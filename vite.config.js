@@ -19,12 +19,38 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false,
     minify: 'esbuild',
+    cssCodeSplit: true,
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'chart-vendor': ['recharts'],
-          'grid-vendor': ['ag-grid-react', 'ag-grid-community']
+        manualChunks: (id) => {
+          // React ecosystem
+          if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+            return 'react-vendor'
+          }
+          // Charts
+          if (id.includes('recharts')) {
+            return 'chart-vendor'
+          }
+          // AG Grid
+          if (id.includes('ag-grid')) {
+            return 'grid-vendor'
+          }
+          // Form handling
+          if (id.includes('@hookform') || id.includes('react-hook-form') || id.includes('zod')) {
+            return 'form-vendor'
+          }
+          // Icons
+          if (id.includes('lucide-react')) {
+            return 'icons-vendor'
+          }
+          // State management
+          if (id.includes('zustand')) {
+            return 'state-vendor'
+          }
+          // Utilities
+          if (id.includes('clsx') || id.includes('axios') || id.includes('sweetalert2')) {
+            return 'utils-vendor'
+          }
         }
       }
     }

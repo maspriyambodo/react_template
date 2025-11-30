@@ -1,6 +1,7 @@
 import { clsx } from 'clsx'
+import { memo } from 'react'
 
-const Button = ({ 
+const Button = memo(({
   children, 
   variant = 'primary', 
   size = 'md',
@@ -44,6 +45,8 @@ const Button = ({
       {children}
     </button>
   )
-}
+})
+
+Button.displayName = 'Button'
 
 export default Button

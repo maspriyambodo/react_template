@@ -1,6 +1,7 @@
 import { clsx } from 'clsx'
+import { memo } from 'react'
 
-const Card = ({ children, className = '', title, actions, ...props }) => {
+const Card = memo(({ children, className = '', title, actions, ...props }) => {
   return (
     <div className={clsx('card p-6', className)} {...props}>
       {(title || actions) && (
@@ -12,6 +13,8 @@ const Card = ({ children, className = '', title, actions, ...props }) => {
       {children}
     </div>
   )
-}
+})
+
+Card.displayName = 'Card'
 
 export default Card
